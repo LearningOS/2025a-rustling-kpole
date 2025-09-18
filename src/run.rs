@@ -24,7 +24,7 @@ pub fn reset(exercise: &Exercise) -> Result<(), ()> {
         .args(["stash", "--"])
         .arg(&exercise.path)
         .spawn();
-
+    
     match command {
         Ok(_) => Ok(()),
         Err(_) => Err(()),
