@@ -2,8 +2,6 @@
 	single linked list merge
 	This problem requires you to merge two ordered singly linked lists into one ordered singly linked list
 */
-// I AM NOT DONE
-
 use std::fmt::{self, Display, Formatter};
 use std::ptr::NonNull;
 use std::vec::*;
@@ -56,11 +54,11 @@ impl<T> LinkedList<T> {
         self.length += 1;
     }
 
-    pub fn get(&mut self, index: i32) -> Option<&T> {
+    pub fn get(&self, index: i32) -> Option<&T> {
         self.get_ith_node(self.start, index)
     }
 
-    fn get_ith_node(&mut self, node: Option<NonNull<Node<T>>>, index: i32) -> Option<&T> {
+    fn get_ith_node(&self, node: Option<NonNull<Node<T>>>, index: i32) -> Option<&T> {
         match node {
             None => None,
             Some(next_ptr) => match index {
@@ -69,14 +67,29 @@ impl<T> LinkedList<T> {
             },
         }
     }
-	pub fn merge(list_a:LinkedList<T>,list_b:LinkedList<T>) -> Self
+	pub fn merge(list_a:LinkedList<T>,list_b:LinkedList<T>) -> Self where T: PartialOrd + Clone
 	{
-		//TODO
-		Self {
-            length: 0,
-            start: None,
-            end: None,
+		let mut i = 0;
+        let mut j = 0;
+        let mut list_c = LinkedList::<T>::new();
+        while let (Some(x), Some(y)) = (list_a.get(i), list_b.get(j)) {
+            if *x <= *y {
+                list_c.add((*x).clone());
+                i += 1;
+            } else {
+                list_c.add((*y).clone());
+                j += 1;
+            }
         }
+        while let Some(x) = list_a.get(i) {
+            list_c.add((*x).clone());
+            i += 1;
+        }
+        while let Some(y) = list_b.get(j) {
+            list_c.add((*y).clone());
+            j += 1;
+        }
+        list_c
 	}
 }
 
